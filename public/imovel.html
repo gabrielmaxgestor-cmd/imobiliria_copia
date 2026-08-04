@@ -1,0 +1,1783 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<script src="/config.js"></script>
+  <script src="/jsonld.js" defer></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casa do Bosque — Imóvel em Destaque | Living Canvas</title>
+<meta name="description" content="Detalhes completos do imóvel: fotos, plantas, localização e agendamento de visita.">
+<link rel="canonical" href="https://faithful-property-showcase.lovable.app/imovel.html">
+<meta property="og:title" content="Casa do Bosque — Imóvel em Destaque | Living Canvas">
+<meta property="og:description" content="Detalhes completos do imóvel: fotos, plantas, localização e agendamento de visita.">
+<meta property="og:type" content="product">
+<meta property="og:url" content="https://faithful-property-showcase.lovable.app/imovel.html">
+<meta property="og:site_name" content="Living Canvas">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Casa do Bosque — Imóvel em Destaque | Living Canvas">
+<meta name="twitter:description" content="Detalhes completos do imóvel: fotos, plantas, localização e agendamento de visita.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --emerald-deep: #0a2e2a;
+    --emerald-mid: #134e4a;
+    --emerald-light: #1a5f5a;
+    --gold: #d4af7a;
+    --gold-soft: #e8c9a0;
+    --cream: #f5f1e8;
+    --cream-dark: #e8e2d4;
+    --text-dark: #1a1a1a;
+    --text-light: rgba(245, 241, 232, 0.9);
+    --glass-bg: rgba(245, 241, 232, 0.08);
+    --glass-border: rgba(245, 241, 232, 0.15);
+  }
+  
+  html { scroll-behavior: smooth; }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--emerald-deep);
+    color: var(--cream);
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3, .serif {
+    font-family: 'Playfair Display', serif;
+    font-weight: var(--weight-body);
+  }
+  
+  /* NAVBAR */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: var(--space-5) var(--space-7);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    background: rgba(10, 46, 42, 0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+    transition: all 0.3s;
+  }
+  
+  nav.scrolled {
+    padding: var(--space-4) var(--space-7);
+    background: rgba(10, 46, 42, 0.98);
+  }
+  
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: var(--text-lg);
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  
+  .logo span { font-style: italic; color: var(--cream); }
+  
+  .nav-links {
+    display: flex;
+    gap: var(--space-6);
+    list-style: none;
+  }
+  
+  .nav-links a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+  
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s;
+  }
+  
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+  
+  .nav-cta {
+    padding: var(--space-3) var(--space-5);
+    background: var(--gold);
+    border: none;
+    color: var(--emerald-deep);
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    font-size: var(--text-sm);
+    letter-spacing: 1px;
+    font-weight: var(--weight-medium);
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+  
+  .nav-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+  }
+  
+  /* BREADCRUMB */
+  .breadcrumb {
+    padding: var(--space-9) var(--space-7) var(--space-4);
+    max-width: 1400px;
+    margin: 0 auto;
+    font-size: var(--text-sm);
+    color: var(--text-light);
+  }
+  
+  .breadcrumb a {
+    color: var(--gold-soft);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .breadcrumb a:hover { color: var(--gold); }
+  
+  .breadcrumb span { margin: 0 var(--space-2); opacity: 0.5; }
+  
+  /* HERO PROPERTY */
+  .property-hero {
+    min-height: 80vh;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-8) var(--space-7);
+    overflow: hidden;
+  }
+  
+  .property-hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      linear-gradient(to top, rgba(10,46,42,0.95) 0%, rgba(10,46,42,0.4) 50%, rgba(10,46,42,0.6) 100%),
+      url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80') center/cover;
+    animation: slowZoom 20s ease-in-out infinite alternate;
+  }
+  
+  @keyframes slowZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.08); }
+  }
+  
+  .property-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-7);
+    align-items: end;
+  }
+  
+  .property-hero-left {
+    max-width: 800px;
+  }
+  
+  .property-badge {
+    display: inline-block;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-xl);
+    font-size: var(--text-sm);
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  
+  .property-title {
+    font-size: var(--text-2xl);
+    line-height: 1.05;
+    margin-bottom: 1rem;
+  }
+  
+  .property-title em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  
+  .property-location {
+    color: var(--gold-soft);
+    font-size: var(--text-md);
+    margin-bottom: 1.5rem;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  
+  .property-quick-stats {
+    display: flex;
+    gap: var(--space-6);
+    flex-wrap: wrap;
+  }
+  
+  .quick-stat {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text-light);
+    font-size: var(--text-base);
+  }
+  
+  .quick-stat-icon {
+    font-size: var(--text-md);
+  }
+  
+  .property-hero-right {
+    text-align: right;
+  }
+  
+  .property-price-label {
+    font-size: var(--text-sm);
+    color: var(--gold-soft);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  
+  .property-price {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-display);
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+  
+  .property-price-cond {
+    font-size: var(--text-sm);
+    color: var(--text-light);
+    margin-top: 0.5rem;
+  }
+  
+  /* GALLERY */
+  .gallery-section {
+    padding: var(--space-8) var(--space-7);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 250px 250px;
+    gap: var(--space-4);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+  
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.6s;
+  }
+  
+  .gallery-item:hover {
+    transform: scale(0.98);
+  }
+  
+  .gallery-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,46,42,0.6) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .gallery-item:hover::after { opacity: 1; }
+  
+  .gallery-item:first-child {
+    grid-row: span 2;
+  }
+  
+  .gallery-item-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--emerald-mid);
+    color: var(--gold);
+    font-size: var(--text-md);
+    font-weight: var(--weight-body);
+    letter-spacing: 1px;
+  }
+  
+  .gallery-item-more::before {
+    content: '+';
+    font-size: var(--text-lg);
+    margin-right: 0.5rem;
+  }
+  
+  /* DAY/NIGHT TOGGLE */
+  .toggle-section {
+    padding: var(--space-8) var(--space-7);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .section-eyebrow {
+    color: var(--gold);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: var(--text-xs);
+    margin-bottom: 1rem;
+  }
+  
+  .section-title {
+    font-size: var(--text-xl);
+    line-height: 1.1;
+    margin-bottom: 3rem;
+  }
+  
+  .section-title em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  
+  .toggle-demo {
+    position: relative;
+    height: 600px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .toggle-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .toggle-morning {
+    background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1600&q=80');
+    opacity: 1;
+  }
+  
+  .toggle-afternoon {
+    background-image: url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&q=80');
+    opacity: 0;
+  }
+  
+  .toggle-night {
+    background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80');
+    opacity: 0;
+  }
+  
+  .toggle-rain {
+    background-image: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1600&q=80');
+    opacity: 0;
+  }
+  
+  .toggle-controls {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--space-2);
+    background: var(--glass-bg);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-border);
+    padding: var(--space-2);
+    border-radius: var(--radius-xl);
+    z-index: 3;
+  }
+  
+  .toggle-btn {
+    padding: var(--space-3) var(--space-6);
+    background: transparent;
+    border: none;
+    color: var(--cream);
+    cursor: pointer;
+    border-radius: var(--radius-xl);
+    font-size: var(--text-sm);
+    letter-spacing: 1px;
+    transition: all 0.3s;
+  }
+  
+  .toggle-btn.active {
+    background: var(--gold);
+    color: var(--emerald-deep);
+    font-weight: var(--weight-body);
+  }
+  
+  .toggle-btn:hover:not(.active) {
+    background: rgba(245, 241, 232, 0.1);
+  }
+  
+  .toggle-caption {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-xl);
+    font-size: var(--text-sm);
+    color: var(--cream);
+    z-index: 3;
+  }
+  
+  /* MAIN CONTENT GRID */
+  .content-section {
+    padding: var(--space-8) var(--space-7);
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--space-8);
+  }
+  
+  .content-main h2 {
+    font-size: var(--text-xl);
+    margin-bottom: 2rem;
+  }
+  
+  .content-main h2 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  
+  /* STORY */
+  .story-block {
+    margin-bottom: 4rem;
+  }
+  
+  .story-text {
+    font-size: var(--text-md);
+    line-height: 1.9;
+    color: var(--text-light);
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    padding-left: 2rem;
+    border-left: 2px solid var(--gold);
+    margin-bottom: 2rem;
+  }
+  
+  .story-description {
+    font-size: var(--text-base);
+    line-height: 1.8;
+    color: var(--text-light);
+  }
+  
+  /* FEATURES */
+  .features-block {
+    margin-bottom: 4rem;
+  }
+  
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+    margin-top: 2rem;
+  }
+  
+  .feature-item {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    transition: all 0.3s;
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+  
+  .feature-item:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    background: rgba(212, 175, 122, 0.05);
+  }
+  
+  .feature-icon {
+    font-size: var(--text-lg);
+    flex-shrink: 0;
+  }
+  
+  .feature-content {
+    flex: 1;
+  }
+  
+  .feature-title {
+    font-size: var(--text-md);
+    font-weight: var(--weight-body);
+    margin-bottom: 0.3rem;
+    color: var(--cream);
+  }
+  
+  .feature-description {
+    font-size: var(--text-sm);
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+  
+  /* FLOOR PLAN */
+  .floorplan-block {
+    margin-bottom: 4rem;
+  }
+  
+  .floorplan-container {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-top: 2rem;
+    position: relative;
+    min-height: 400px;
+    background-image: 
+      linear-gradient(rgba(245, 241, 232, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245, 241, 232, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+  
+  .floorplan-svg {
+    width: 100%;
+    height: 400px;
+    position: relative;
+  }
+  
+  .room {
+    position: absolute;
+    background: rgba(212, 175, 122, 0.1);
+    border: 1px solid var(--gold);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--cream);
+    font-size: var(--text-sm);
+    text-align: center;
+    padding: var(--space-2);
+  }
+  
+  .room:hover {
+    background: rgba(212, 175, 122, 0.25);
+    transform: scale(1.02);
+    box-shadow: var(--shadow-gold);
+  }
+  
+  .room-icon {
+    font-size: var(--text-lg);
+    margin-bottom: 0.3rem;
+  }
+  
+  .room-name {
+    font-weight: var(--weight-medium);
+    font-size: var(--text-sm);
+  }
+  
+  .room-size {
+    font-size: var(--text-xs);
+    color: var(--gold-soft);
+    margin-top: 0.2rem;
+  }
+  
+  .room-1 { top: 5%; left: 5%; width: 35%; height: 40%; }
+  .room-2 { top: 5%; left: 42%; width: 28%; height: 40%; }
+  .room-3 { top: 5%; right: 5%; width: 23%; height: 40%; }
+  .room-4 { bottom: 5%; left: 5%; width: 45%; height: 50%; }
+  .room-5 { bottom: 5%; left: 52%; width: 22%; height: 50%; }
+  .room-6 { bottom: 5%; right: 5%; width: 23%; height: 50%; }
+  
+  /* NEIGHBORHOOD MINI */
+  .neighborhood-block {
+    margin-bottom: 4rem;
+  }
+  
+  .neighborhood-mini {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+  }
+  
+  .neighborhood-map {
+    height: 300px;
+    background: 
+      radial-gradient(circle at 40% 50%, rgba(212, 175, 122, 0.3) 0%, transparent 40%),
+      url('https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80') center/cover;
+    border-radius: var(--radius-md);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .neighborhood-map-pin {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translate(-50%, -50%);
+    width: 50px;
+    height: 50px;
+    background: var(--gold);
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--emerald-deep);
+    font-size: var(--text-lg);
+    box-shadow: var(--shadow-gold);
+    animation: pulse 3.1s var(--ease-premium) infinite;
+  }
+  
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(212,175,122,0.21); }
+    70%  { box-shadow: 0 0 0 22px rgba(212,175,122,0); }
+    100% { box-shadow: 0 0 0 0 rgba(212,175,122,0); }
+  }
+  
+  .neighborhood-info h4 {
+    font-size: var(--text-md);
+    margin-bottom: 1rem;
+    color: var(--gold);
+  }
+  
+  .neighborhood-info p {
+    color: var(--text-light);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  
+  .neighborhood-pois {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  
+  .poi-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-3) var(--space-4);
+    background: rgba(245, 241, 232, 0.05);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+  }
+  
+  .poi-name {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  
+  .poi-distance {
+    color: var(--gold);
+    font-weight: var(--weight-body);
+  }
+  
+  /* SIDEBAR */
+  .content-sidebar {
+    position: relative;
+  }
+  
+  .sidebar-sticky {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  
+  .sidebar-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(30px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+  
+  .sidebar-card h3 {
+    font-size: var(--text-md);
+    margin-bottom: 1.5rem;
+    color: var(--gold);
+  }
+  
+  /* STATS CARD */
+  .stats-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: 1.5rem;
+  }
+  
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    background: rgba(245, 241, 232, 0.05);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+  }
+  
+  .stat-label {
+    color: var(--text-light);
+  }
+  
+  .stat-value {
+    font-weight: var(--weight-body);
+    color: var(--gold);
+  }
+  
+  /* BROKER CARD */
+  .broker-card {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    padding: var(--space-5);
+    background: rgba(245, 241, 232, 0.05);
+    border-radius: var(--radius-md);
+    margin-bottom: 1.5rem;
+  }
+  
+  .broker-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: var(--radius-pill);
+    background-size: cover;
+    background-position: center;
+    border: 3px solid var(--gold);
+    flex-shrink: 0;
+  }
+  
+  .broker-info h4 {
+    font-size: var(--text-md);
+    margin-bottom: 0.2rem;
+  }
+  
+  .broker-info p {
+    font-size: var(--text-sm);
+    color: var(--gold-soft);
+    margin-bottom: 0.3rem;
+  }
+  
+  .broker-rating {
+    color: var(--gold);
+    font-size: var(--text-sm);
+  }
+  
+  /* CTA BUTTONS */
+  .cta-primary {
+    width: 100%;
+    padding: var(--space-4);
+    background: var(--gold);
+    border: none;
+    border-radius: var(--radius-xl);
+    color: var(--emerald-deep);
+    font-size: var(--text-base);
+    font-weight: var(--weight-body);
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+  
+  .cta-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+  }
+  
+  .cta-secondary {
+    width: 100%;
+    padding: var(--space-4);
+    background: transparent;
+    border: 1px solid var(--gold);
+    border-radius: var(--radius-xl);
+    color: var(--gold);
+    font-size: var(--text-base);
+    font-weight: var(--weight-body);
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+  }
+  
+  .cta-secondary:hover {
+    background: var(--gold);
+    color: var(--emerald-deep);
+  }
+  
+  .cta-whatsapp {
+    width: 100%;
+    padding: var(--space-4);
+    background: #25D366;
+    border: none;
+    border-radius: var(--radius-xl);
+    color: white;
+    font-size: var(--text-base);
+    font-weight: var(--weight-body);
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+  }
+  
+  .cta-whatsapp:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+  }
+  
+  /* SIMULATOR */
+  .simulator-block {
+    margin-top: 4rem;
+    padding: var(--space-7);
+    background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-mid) 100%);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+  }
+  
+  .simulator-block h3 {
+    font-size: var(--text-lg);
+    margin-bottom: 0.5rem;
+  }
+  
+  .simulator-block h3 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  
+  .simulator-subtitle {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+  }
+  
+  .simulator-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    margin-bottom: 2rem;
+  }
+  
+  .simulator-field label {
+    display: block;
+    font-size: var(--text-sm);
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .simulator-field input,
+  .simulator-field select {
+    width: 100%;
+    padding: var(--space-4) var(--space-4);
+    background: rgba(245, 241, 232, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+    color: var(--cream);
+    font-family: 'Inter', sans-serif;
+    font-size: var(--text-base);
+    outline: none;
+    transition: all 0.3s;
+  }
+  
+  .simulator-field input:focus,
+  .simulator-field select:focus {
+    border-color: var(--gold);
+    background: rgba(245, 241, 232, 0.1);
+  }
+  
+  .simulator-result {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--gold);
+    border-radius: var(--radius-md);
+    padding: var(--space-5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .simulator-result-label {
+    font-size: var(--text-sm);
+    color: var(--gold-soft);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .simulator-result-value {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-display);
+    color: var(--gold);
+    font-family: 'Playfair Display', serif;
+  }
+  
+  /* SIMILAR PROPERTIES */
+  .similar-section {
+    padding: var(--space-9) var(--space-7);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .similar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-6);
+    margin-top: 3rem;
+  }
+  
+  .similar-card {
+    position: relative;
+    height: 450px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .similar-card:hover { transform: translateY(-10px); }
+  
+  .similar-image {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 1s;
+  }
+  
+  .similar-card:hover .similar-image { transform: scale(1.05); }
+  
+  .similar-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,46,42,0.95) 0%, rgba(10,46,42,0.3) 60%, transparent 100%);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  
+  .similar-price {
+    position: absolute;
+    top: 1.5rem; right: 1.5rem;
+    background: var(--gold);
+    color: var(--emerald-deep);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-xl);
+    font-weight: var(--weight-medium);
+    font-size: var(--text-sm);
+  }
+  
+  .similar-title {
+    font-size: var(--text-lg);
+    margin-bottom: 0.3rem;
+  }
+  
+  .similar-location {
+    color: var(--gold-soft);
+    font-size: var(--text-sm);
+    margin-bottom: 1rem;
+  }
+  
+  .similar-meta {
+    display: flex;
+    gap: var(--space-5);
+    padding-top: 1rem;
+    border-top: 1px solid var(--glass-border);
+    font-size: var(--text-sm);
+    color: var(--text-light);
+  }
+  
+  /* FINAL CTA */
+  .final-cta {
+    padding: var(--space-9) var(--space-7);
+    background: linear-gradient(135deg, var(--emerald-light) 0%, var(--emerald-mid) 100%);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .final-cta::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(212, 175, 122, 0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+  }
+  
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .final-cta-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .final-cta h2 {
+    font-size: var(--text-xl);
+    margin-bottom: 1rem;
+  }
+  
+  .final-cta h2 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  
+  .final-cta p {
+    color: var(--text-light);
+    margin-bottom: 2.5rem;
+    font-size: var(--text-md);
+  }
+  
+  .final-cta-buttons {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .final-cta-buttons button {
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-xl);
+    font-size: var(--text-base);
+    font-weight: var(--weight-body);
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    border: none;
+  }
+  
+  .final-cta-primary {
+    background: var(--gold);
+    color: var(--emerald-deep);
+  }
+  
+  .final-cta-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-gold);
+  }
+  
+  .final-cta-secondary {
+    background: transparent;
+    border: 1px solid var(--cream) !important;
+    color: var(--cream);
+  }
+  
+  .final-cta-secondary:hover {
+    background: var(--cream);
+    color: var(--emerald-deep);
+  }
+  
+  /* FOOTER */
+  footer {
+    background: var(--emerald-deep);
+    border-top: 1px solid var(--glass-border);
+    padding: var(--space-8) var(--space-7) var(--space-6);
+  }
+  
+  .footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: var(--space-7);
+    margin-bottom: 3rem;
+  }
+  
+  .footer-brand p {
+    color: var(--text-light);
+    margin-top: 1rem;
+    max-width: 300px;
+    font-size: var(--text-sm);
+  }
+  
+  .footer-col h4 {
+    color: var(--gold);
+    font-size: var(--text-sm);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  
+  .footer-col a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    transition: color 0.3s;
+  }
+  
+  .footer-col a:hover { color: var(--gold); }
+  
+  .footer-bottom {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-top: 2rem;
+    border-top: 1px solid var(--glass-border);
+    display: flex;
+    justify-content: space-between;
+    color: var(--text-light);
+    font-size: var(--text-sm);
+  }
+  
+  /* FLOATING CTA */
+  .floating-cta {
+    position: fixed;
+    bottom: 2rem; right: 2rem;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: flex-end;
+  }
+  
+  .whatsapp-btn {
+    width: 60px; height: 60px;
+    background: #25D366;
+    border-radius: var(--radius-pill);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: var(--text-lg);
+    box-shadow: 0 14px 34px -12px rgba(37,211,102,0.30), 0 3px 8px rgba(10,46,42,0.16);
+    cursor: pointer;
+    transition: transform 380ms var(--ease-premium), box-shadow 380ms var(--ease-premium);
+    text-decoration: none;
+  }
+  
+  .whatsapp-btn:hover { transform: scale(1.1) rotate(10deg); box-shadow: 0 22px 46px -14px rgba(37,211,102,0.38), 0 5px 12px rgba(10,46,42,0.20); }
+  
+  .cta-tooltip {
+    background: var(--gold);
+    color: var(--emerald-deep);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-sm);
+    font-weight: var(--weight-medium);
+    font-size: var(--text-sm);
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  
+  .floating-cta:hover .cta-tooltip {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .content-section { grid-template-columns: 1fr; }
+    .content-sidebar { position: relative; }
+    .sidebar-sticky { position: relative; top: 0; }
+    .property-hero-content { grid-template-columns: 1fr; }
+    .property-hero-right { text-align: left; }
+    .neighborhood-mini { grid-template-columns: 1fr; }
+    .simulator-grid { grid-template-columns: 1fr; }
+  }
+  
+  @media (max-width: 768px) {
+    nav { padding: var(--space-4) var(--space-5); }
+    .nav-links { display: none; }
+    .breadcrumb, .gallery-section, .toggle-section, .content-section, .similar-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .property-hero { padding: var(--space-8) var(--space-5); }
+    .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .gallery-item:first-child { grid-row: auto; height: 300px; }
+    .gallery-item { height: 200px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .footer-content { grid-template-columns: 1fr 1fr; }
+    .toggle-demo { height: 400px; }
+    .toggle-controls { flex-wrap: wrap; justify-content: center; }
+    .toggle-btn { padding: var(--space-2) var(--space-4); font-size: var(--text-sm); }
+  }
+
+  /* ---------- Chips de ícone (sistema) ---------- */
+  .ic-chip{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;
+    border-radius:var(--radius-pill);background:rgba(10,46,42,0.06);color:#134e4a;flex-shrink:0;
+    transition:background 300ms var(--ease-premium),transform 300ms var(--ease-premium);}
+  .ic-chip svg{stroke-width:1.5;}
+  .ic-chip--lg{width:48px;height:48px;
+    background:linear-gradient(135deg,rgba(19,78,74,0.08) 0%,rgba(212,175,122,0.08) 100%);}
+  .ic-chip--onDark{background:rgba(255,255,255,0.10);color:#e8c9a0;}
+  a:hover>.ic-chip,*:hover>.ic-chip{background:rgba(10,46,42,0.10);}
+  .lc-svg{stroke-width:1.5;}
+
+  .card-meta span,.similar-meta span{display:inline-flex;align-items:center;gap:var(--space-2);}
+  .ic-label{font-size:var(--text-sm);font-weight:var(--weight-medium);color:inherit;}
+  .card-overlay .ic-chip,.similar-meta .ic-chip{background:rgba(255,255,255,0.12);color:#e8c9a0;}
+  .card-overlay .ic-label{color:#f8f5ef;}
+  .lc-svg--inline{vertical-align:-2px;margin-right:0.35rem;stroke-width:1.5;}
+  .quick-stat-icon.ic-chip{font-size:0;}
+  .feature-icon.ic-chip--lg{color:#134e4a;}
+
+  .quick-stat-icon.ic-chip{background:rgba(255,255,255,0.12);color:#e8c9a0;}
+  .property-quick-stats .quick-stat{gap:var(--space-3);}
+
+  .card-meta{flex-wrap:wrap;}
+  .ic-label{white-space:nowrap;}
+
+  /* ---------- Acessibilidade: foco visível por teclado ---------- */
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible,
+  summary:focus-visible,
+  [tabindex]:focus-visible,
+  [role="button"]:focus-visible,
+  .property-card:focus-visible,
+  .card:focus-visible {
+    outline: 2px solid var(--gold, #d4af7a);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+  a:focus:not(:focus-visible),
+  button:focus:not(:focus-visible) { outline: none; }
+
+</style>
+<link rel="stylesheet" href="/design-tokens.css">
+  <link rel="stylesheet" href="/microinteractions.css">
+<link rel="stylesheet" href="/textures.css">
+<script src="/textures.js" defer></script>
+<link rel="stylesheet" href="/enhance.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href='home.html' class="logo">LIVING<span>canvas</span></a>
+  <ul class="nav-links">
+    <li><a href="imoveis.html">Imóveis</a></li>
+    <li><a href="bairros.html">Bairros</a></li>
+    <li><a href="sobre.html">Equipe</a></li>
+    <li><a href="depoimentos.html">Depoimentos</a></li>
+  </ul>
+  <a href="#agendar" class="nav-cta">Agendar Visita</a>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href='home.html'>Início</a>
+  <span>›</span>
+  <a href="imoveis.html">Imóveis</a>
+  <span>›</span>
+  <a href="bairro.html">Jardim Europa</a>
+  <span>›</span>
+  <strong style="color: var(--gold);">Casa do Bosque</strong>
+</div>
+
+<!-- PROPERTY HERO -->
+<section class="property-hero">
+  <div class="property-hero-bg"></div>
+  <div class="property-hero-content">
+    <div class="property-hero-left">
+      <span class="property-badge">✦ Exclusivo ✦</span>
+      <h1 class="property-title">Casa do <em>Bosque</em></h1>
+      <p class="property-location"><svg class="lc-svg lc-svg--inline" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11"/><circle cx="12" cy="10" r="2.5"/></svg> Jardim Europa • São Paulo • 420m²</p>
+      <div class="property-quick-stats">
+        <div class="quick-stat"><span class="quick-stat-icon ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7v11M3 12h18M21 12v6M7 12V9h5v3"/></svg></span> 4 suítes</div>
+        <div class="quick-stat"><span class="quick-stat-icon ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h14M6.5 17a1.5 1.5 0 1 0 3 0 1.5 1.5 0 1 0-3 0M14.5 17a1.5 1.5 0 1 0 3 0 1.5 1.5 0 1 0-3 0M4 17v-4l1.8-4.2A2 2 0 0 1 7.6 7.5h8.8a2 2 0 0 1 1.8 1.3L20 13v4M4.5 13h15"/></svg></span> 4 vagas</div>
+        <div class="quick-stat"><span class="quick-stat-icon ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-6M8.5 15a4 4 0 0 1-1.3-7.6A4.5 4.5 0 0 1 12 3a4.5 4.5 0 0 1 4.8 4.4A4 4 0 0 1 15.5 15z"/></svg></span> 800m² jardim</div>
+        <div class="quick-stat"><span class="quick-stat-icon ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 15 15 3l6 6L9 21z"/><path d="M7 11l2 2M11 7l2 2M11 15l2 2"/></svg></span> 420m² área</div>
+      </div>
+    </div>
+    <div class="property-hero-right">
+      <div class="property-price-label">Valor</div>
+      <div class="property-price">R$ 2.800.000</div>
+      <div class="property-price-cond">Condomínio: R$ 1.200/mês</div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="gallery-grid">
+    <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80')"></div>
+    <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80')"></div>
+    <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80')"></div>
+    <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80')"></div>
+    <div class="gallery-item gallery-item-more">24 fotos</div>
+  </div>
+</section>
+
+<!-- DAY/NIGHT TOGGLE -->
+<section class="toggle-section">
+  <p class="section-eyebrow">✦ Viver um Dia</p>
+  <h2 class="section-title">Veja este espaço em <em>quatro momentos</em></h2>
+  
+  <div class="toggle-demo">
+    <div class="toggle-caption" id="toggleCaption">☀️ Manhã — Luz natural suave invade a sala</div>
+    <div class="toggle-image toggle-morning"></div>
+    <div class="toggle-image toggle-afternoon"></div>
+    <div class="toggle-image toggle-night"></div>
+    <div class="toggle-image toggle-rain"></div>
+    <div class="toggle-controls">
+      <button class="toggle-btn active" onclick="toggleView('morning', this)">☀️ Manhã</button>
+      <button class="toggle-btn" onclick="toggleView('afternoon', this)">🌇 Tarde</button>
+      <button class="toggle-btn" onclick="toggleView('night', this)">🌙 Noite</button>
+      <button class="toggle-btn" onclick="toggleView('rain', this)">🌧 Chuva</button>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN CONTENT -->
+<section class="content-section">
+  <div class="content-main">
+    
+    <!-- STORY -->
+    <div class="story-block">
+      <h2>A <em>narrativa</em> deste espaço</h2>
+      <p class="story-text">
+        "Onde o silêncio da floresta encontra o design contemporâneo. Cada amanhecer aqui é um convite à calma, cada entardecer, um espetáculo particular."
+      </p>
+      <p class="story-description">
+        Esta casa foi concebida para quem valoriza a privacidade sem abrir mão da sofisticação. Integrada ao terreno por um paisagismo premiado, a residência se abre para o jardim através de grandes panos de vidro que dissolvem a fronteira entre interior e exterior. Os 420m² de área construída se distribuem em dois pavimentos, com pé-direito duplo na sala principal e uma suíte master que ocupa todo o andar superior, com closet e banheiro em mármore importado.
+      </p>
+    </div>
+    
+    <!-- FEATURES -->
+    <div class="features-block">
+      <h2>O que torna este imóvel <em>único</em></h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon ic-chip ic-chip--lg"><svg class="lc-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7v11M3 12h18M21 12v6M7 12V9h5v3"/></svg></div>
+          <div class="feature-content">
+            <div class="feature-title">4 Suítes Master</div>
+            <div class="feature-description">Todas com closet planejado e vista para o jardim</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon ic-chip ic-chip--lg"><svg class="lc-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-6M8.5 15a4 4 0 0 1-1.3-7.6A4.5 4.5 0 0 1 12 3a4.5 4.5 0 0 1 4.8 4.4A4 4 0 0 1 15.5 15z"/></svg></div>
+          <div class="feature-content">
+            <div class="feature-title">Jardim Privativo</div>
+            <div class="feature-description">800m² de área verde com paisagismo de Burle Marx</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon ic-chip ic-chip--lg"><svg class="lc-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 21h10M6 3.8A3.2 3.2 0 0 1 12 3a3.2 3.2 0 0 1 6 .8 3.2 3.2 0 0 1-1.5 5.9V17h-9V9.7A3.2 3.2 0 0 1 6 3.8"/></svg></div>
+          <div class="feature-content">
+            <div class="feature-title">Chef Kitchen</div>
+            <div class="feature-description">Cozinha profissional com ilha em granito e cooktop 6 bocas</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon ic-chip ic-chip--lg"><svg class="lc-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h14M6.5 17a1.5 1.5 0 1 0 3 0 1.5 1.5 0 1 0-3 0M14.5 17a1.5 1.5 0 1 0 3 0 1.5 1.5 0 1 0-3 0M4 17v-4l1.8-4.2A2 2 0 0 1 7.6 7.5h8.8a2 2 0 0 1 1.8 1.3L20 13v4M4.5 13h15"/></svg></div>
+          <div class="feature-content">
+            <div class="feature-title">4 Vagas Cobertas</div>
+            <div class="feature-description">Garagem com portão automatizado e carregador para elétrico</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon ic-chip ic-chip--lg"><svg class="lc-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 15c1.6 0 1.6 1.2 3.2 1.2S6.8 15 8.4 15s1.6 1.2 3.2 1.2S13.2 15 14.8 15s1.6 1.2 3.2 1.2S19.6 15 22 15M2 19.5c1.6 0 1.6 1.2 3.2 1.2s1.6-1.2 3.2-1.2 1.6 1.2 3.2 1.2 1.6-1.2 3.2-1.2 1.6 1.2 3.2 1.2 2.4-1.2 4-1.2M8 15V5a2 2 0 0 1 4 0v10M16 15V5"/></svg></div>
+          <div class="feature-content">
+            <div class="feature-title">Piscina Aquecida</div>
+            <div class="feature-description">Borda infinita com deck em madeira cumaru e iluminação cênica</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon ic-chip ic-chip--lg"><svg class="lc-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M17 9h4M3 15h4M17 15h4"/></svg></div>
+          <div class="feature-content">
+            <div class="feature-title">Home Theater</div>
+            <div class="feature-description">Sala dedicada com isolamento acústico e projetor 4K</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon ic-chip ic-chip--lg"><svg class="lc-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3s4.5 4 4.5 8a4.5 4.5 0 0 1-9 0c0-1.3.5-2.4 1.2-3.3 0 1.6.9 2.5 1.8 2.5 1.4 0 1.5-2.6 1.5-7.2"/><path d="M12 21a6 6 0 0 0 6-6"/></svg></div>
+          <div class="feature-content">
+            <div class="feature-title">Lareira a Gás</div>
+            <div class="feature-description">Peça suspensa na sala principal, de design assinado</div>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon ic-chip ic-chip--lg"><svg class="lc-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+          <div class="feature-content">
+            <div class="feature-title">Segurança 24h</div>
+            <div class="feature-description">Condomínio com ronda, câmeras e controle de acesso</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- FLOOR PLAN -->
+    <div class="floorplan-block">
+      <h2>Planta <em>interativa</em></h2>
+      <p style="color: var(--text-light); margin-top: 1rem;">Passe o mouse sobre cada ambiente para ver os detalhes.</p>
+      <div class="floorplan-container">
+        <div class="floorplan-svg">
+          <div class="room room-1">
+            <div class="room-icon">🛋</div>
+            <div class="room-name">Sala de Estar</div>
+            <div class="room-size">65m²</div>
+          </div>
+          <div class="room room-2">
+            <div class="room-icon">🍽</div>
+            <div class="room-name">Jantar</div>
+            <div class="room-size">35m²</div>
+          </div>
+          <div class="room room-3">
+            <div class="room-icon">🍳</div>
+            <div class="room-name">Cozinha</div>
+            <div class="room-size">40m²</div>
+          </div>
+          <div class="room room-4">
+            <div class="room-icon">🛏</div>
+            <div class="room-name">Suíte Master</div>
+            <div class="room-size">75m²</div>
+          </div>
+          <div class="room room-5">
+            <div class="room-icon">🛁</div>
+            <div class="room-name">Suítes 2-4</div>
+            <div class="room-size">90m²</div>
+          </div>
+          <div class="room room-6">
+            <div class="room-icon">🌳</div>
+            <div class="room-name">Jardim</div>
+            <div class="room-size">800m²</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- NEIGHBORHOOD -->
+    <div class="neighborhood-block">
+      <h2>O <em>bairro</em> ao seu redor</h2>
+      <div class="neighborhood-mini">
+        <div class="neighborhood-map">
+          <div class="neighborhood-map-pin"><svg class="lc-svg lc-svg--inline" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11"/><circle cx="12" cy="10" r="2.5"/></svg> </div>
+        </div>
+        <div class="neighborhood-info">
+          <h4>Jardim Europa</h4>
+          <p>Um dos bairros mais nobres de São Paulo, conhecido por suas ruas arborizadas, mansões históricas e proximidade com o Parque Ibirapuera.</p>
+          <div class="neighborhood-pois">
+            <div class="poi-item">
+              <div class="poi-name">🌳 Parque Ibirapuera</div>
+              <div class="poi-distance">800m</div>
+            </div>
+            <div class="poi-item">
+              <div class="poi-name">🚇 Metrô Faria Lima</div>
+              <div class="poi-distance">1.2km</div>
+            </div>
+            <div class="poi-item">
+              <div class="poi-name">🏥 Hospital Albert Einstein</div>
+              <div class="poi-distance">2km</div>
+            </div>
+            <div class="poi-item">
+              <div class="poi-name">🎭 MASP</div>
+              <div class="poi-distance">2.5km</div>
+            </div>
+            <div class="poi-item">
+              <div class="poi-name">🛍 Shopping JK</div>
+              <div class="poi-distance">1.5km</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- SIMULATOR -->
+    <div class="simulator-block" id="simulator">
+      <h3>Simule seu <em>financiamento</em></h3>
+      <p class="simulator-subtitle">Descubra em minutos as condições ideais para este imóvel.</p>
+      <div class="simulator-grid">
+        <div class="simulator-field">
+          <label>Valor de Entrada</label>
+          <input type="text" value="R$ 800.000" id="entrada">
+        </div>
+        <div class="simulator-field">
+          <label>Prazo (anos)</label>
+          <select id="prazo">
+            <option value="15">15 anos</option>
+            <option value="20">20 anos</option>
+            <option value="25">25 anos</option>
+            <option value="30" selected>30 anos</option>
+            <option value="35">35 anos</option>
+          </select>
+        </div>
+        <div class="simulator-field">
+          <label>Instituição</label>
+          <select id="instituicao">
+            <option>Caixa Econômica</option>
+            <option>Itaú</option>
+            <option>Bradesco</option>
+            <option>Santander</option>
+            <option>BTG Pactual</option>
+          </select>
+        </div>
+      </div>
+      <div class="simulator-result">
+        <div>
+          <div class="simulator-result-label">Parcela estimada</div>
+          <div style="font-size: var(--text-xs); color: var(--text-light); margin-top: 0.3rem;">SAC • Taxa média 9.5% a.a.</div>
+        </div>
+        <div class="simulator-result-value">R$ 14.820</div>
+      </div>
+    </div>
+    
+  </div>
+  
+  <!-- SIDEBAR -->
+  <aside class="content-sidebar">
+    <div class="sidebar-sticky">
+      
+      <!-- STATS -->
+      <div class="sidebar-card">
+        <h3>Ficha Técnica</h3>
+        <div class="stats-list">
+          <div class="stat-row">
+            <span class="stat-label">Área total</span>
+            <span class="stat-value">420m²</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Terreno</span>
+            <span class="stat-value">1.220m²</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Quartos</span>
+            <span class="stat-value">4 suítes</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Vagas</span>
+            <span class="stat-value">4 cobertas</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Ano</span>
+            <span class="stat-value">2019</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">IPTU</span>
+            <span class="stat-value">R$ 1.800/mês</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-label">Condomínio</span>
+            <span class="stat-value">R$ 1.200/mês</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- BROKER -->
+      <div class="sidebar-card">
+        <h3>Seu Especialista</h3>
+        <div class="broker-card">
+          <div class="broker-avatar" style="background-image: url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&q=80')"></div>
+          <div class="broker-info">
+            <h4>Ana Carolina Silva</h4>
+            <p>Corretora Sênior • CRECI 12345</p>
+            <div class="broker-rating">★★★★★ 5.0</div>
+          </div>
+        </div>
+        <button class="cta-whatsapp">💬 Falar no WhatsApp</button>
+        <button class="cta-secondary" style="margin-top: 0.8rem;">📞 Ligar Agora</button>
+      </div>
+      
+      <!-- CTAs -->
+      <div class="sidebar-card" id="agendar">
+        <h3>Agende sua Experiência</h3>
+        <p style="color: var(--text-light); font-size: var(--text-sm); margin-bottom: 1.5rem;">
+          Visite pessoalmente e sinta a energia deste espaço.
+        </p>
+        <button class="cta-primary">📅 Agendar Visita</button>
+        <button class="cta-secondary">🎥 Tour Virtual 360°</button>
+        <button class="cta-secondary">❤️ Salvar Imóvel</button>
+      </div>
+      
+    </div>
+  </aside>
+</section>
+
+<!-- SIMILAR PROPERTIES -->
+<section class="similar-section">
+  <p class="section-eyebrow">✦ Você também pode gostar</p>
+  <h2 class="section-title">Imóveis <em>similares</em></h2>
+  
+  <div class="similar-grid">
+    <article class="similar-card">
+      <div class="similar-image" style="background-image: url('https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80')"></div>
+      <div class="similar-overlay">
+        <span class="similar-price">R$ 3.2M</span>
+        <h3 class="similar-title">Villa Horizonte</h3>
+        <p class="similar-location">Jardim Europa • 480m²</p>
+        <div class="similar-meta">
+          <span><span class="ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7v11M3 12h18M21 12v6M7 12V9h5v3"/></svg></span><span class="ic-label">5 suítes</span></span>
+          <span><span class="ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 15c1.6 0 1.6 1.2 3.2 1.2S6.8 15 8.4 15s1.6 1.2 3.2 1.2S13.2 15 14.8 15s1.6 1.2 3.2 1.2S19.6 15 22 15M2 19.5c1.6 0 1.6 1.2 3.2 1.2s1.6-1.2 3.2-1.2 1.6 1.2 3.2 1.2 1.6-1.2 3.2-1.2 1.6 1.2 3.2 1.2 2.4-1.2 4-1.2M8 15V5a2 2 0 0 1 4 0v10M16 15V5"/></svg></span><span class="ic-label">Piscina</span></span>
+          <span><span class="ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-6M8.5 15a4 4 0 0 1-1.3-7.6A4.5 4.5 0 0 1 12 3a4.5 4.5 0 0 1 4.8 4.4A4 4 0 0 1 15.5 15z"/></svg></span><span class="ic-label">Jardim</span></span>
+        </div>
+      </div>
+    </article>
+    
+    <article class="similar-card">
+      <div class="similar-image" style="background-image: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80')"></div>
+      <div class="similar-overlay">
+        <span class="similar-price">R$ 2.5M</span>
+        <h3 class="similar-title">Casa Jardim</h3>
+        <p class="similar-location">Jardim Paulista • 380m²</p>
+        <div class="similar-meta">
+          <span><span class="ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7v11M3 12h18M21 12v6M7 12V9h5v3"/></svg></span><span class="ic-label">4 suítes</span></span>
+          <span><span class="ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 21h10M6 3.8A3.2 3.2 0 0 1 12 3a3.2 3.2 0 0 1 6 .8 3.2 3.2 0 0 1-1.5 5.9V17h-9V9.7A3.2 3.2 0 0 1 6 3.8"/></svg></span><span class="ic-label">Chef</span></span>
+          <span><span class="ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 17h14M6.5 17a1.5 1.5 0 1 0 3 0 1.5 1.5 0 1 0-3 0M14.5 17a1.5 1.5 0 1 0 3 0 1.5 1.5 0 1 0-3 0M4 17v-4l1.8-4.2A2 2 0 0 1 7.6 7.5h8.8a2 2 0 0 1 1.8 1.3L20 13v4M4.5 13h15"/></svg></span><span class="ic-label">3 vagas</span></span>
+        </div>
+      </div>
+    </article>
+    
+    <article class="similar-card">
+      <div class="similar-image" style="background-image: url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80')"></div>
+      <div class="similar-overlay">
+        <span class="similar-price">R$ 3.8M</span>
+        <h3 class="similar-title">Residência Bosque</h3>
+        <p class="similar-location">Morumbi • 520m²</p>
+        <div class="similar-meta">
+          <span><span class="ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7v11M3 12h18M21 12v6M7 12V9h5v3"/></svg></span><span class="ic-label">6 suítes</span></span>
+          <span><span class="ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16M17 4v16M3 9h4M17 9h4M3 15h4M17 15h4"/></svg></span><span class="ic-label">Cinema</span></span>
+          <span><span class="ic-chip"><svg class="lc-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-6M8.5 15a4 4 0 0 1-1.3-7.6A4.5 4.5 0 0 1 12 3a4.5 4.5 0 0 1 4.8 4.4A4 4 0 0 1 15.5 15z"/></svg></span><span class="ic-label">1000m²</span></span>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-content">
+    <h2>Pronto para viver este <em>cenário</em>?</h2>
+    <p>Agende uma visita e descubra pessoalmente o que nenhuma foto consegue transmitir.</p>
+    <div class="final-cta-buttons">
+      <button class="final-cta-primary">📅 Agendar Visita</button>
+      <button class="final-cta-secondary">💬 Falar com Corretor</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-brand">
+      <div class="logo">LIVING<span>canvas</span></div>
+      <p>Curadoria de espaços únicos para quem busca mais que um endereço.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explorar</h4>
+      <ul>
+        <li><a href="imoveis.html">Imóveis</a></li>
+        <li><a href="bairros.html">Bairros</a></li>
+        <li><a href="lancamentos.html">Lançamentos</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="sobre.html">Sobre nós</a></li>
+        <li><a href="sobre.html">Corretores</a></li>
+        <li><a href="#">Carreiras</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contato</h4>
+      <ul>
+        <li><a href="#">(11) 99999-9999</a></li>
+        <li><a href="contato.html">contato@livingcanvas.com</a></li>
+        <li><a href="agendar.html">Agendar Visita</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Living Canvas. Todos os direitos reservados.</span>
+    <span>CRECI-SP 00000-J</span>
+  </div>
+</footer>
+
+<!-- FLOATING CTA -->
+<div class="floating-cta">
+  <div class="cta-tooltip">Fale com Ana Carolina</div>
+  <a href="https://wa.me/5511999999999" class="whatsapp-btn" target="_blank">💬</a>
+</div>
+
+<script>
+  // NAVBAR SCROLL
+  window.addEventListener('scroll', () => {
+    const navbar = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+  
+  // TOGGLE DAY/NIGHT
+  const captions = {
+    morning: '☀️ Manhã — Luz natural suave invade a sala',
+    afternoon: '🌇 Tarde — O pôr do sol colore o jardim',
+    night: '🌙 Noite — Iluminação cênica revela a atmosfera',
+    rain: '🌧 Chuva — Aconchego com som da natureza'
+  };
+  
+  function toggleView(view, btn) {
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    const images = {
+      morning: document.querySelector('.toggle-morning'),
+      afternoon: document.querySelector('.toggle-afternoon'),
+      night: document.querySelector('.toggle-night'),
+      rain: document.querySelector('.toggle-rain')
+    };
+    
+    Object.values(images).forEach(img => img.style.opacity = '0');
+    images[view].style.opacity = '1';
+    
+    document.getElementById('toggleCaption').textContent = captions[view];
+  }
+  
+  // SMOOTH SCROLL
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const href = this.getAttribute('href');
+      if (href === '#') return;
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+<script src="/enhance.js" defer></script>
+</body>
+</html>
